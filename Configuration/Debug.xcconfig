@@ -1,0 +1,12 @@
+// Debug.xcconfig
+// ProductionLab app target'ının Debug ayarları.
+// Not: Xcode'da Build Settings'e elle yazılan değer, buradaki değeri ezer.
+// Bu yüzden aşağıdaki ayarlar target'tan kaldırılıp yalnızca burada tutulur.
+
+#include "Shared.xcconfig"
+
+// Ana ekranda görünen isim: Debug ve Release kurulumunu ayırt etmeyi kolaylaştırır.
+APP_DISPLAY_NAME = PL Debug
+
+// Settings ekranındaki "Ortam" satırı (Info.plist → AppEnvironment).
+APP_ENVIRONMENT = Debug · Offline mock API

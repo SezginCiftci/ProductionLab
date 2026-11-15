@@ -1,0 +1,13 @@
+// Shared.xcconfig
+// Debug ve Release'te ortak olan ayarlar.
+
+MARKETING_VERSION = 1.0
+CURRENT_PROJECT_VERSION = 1
+PRODUCT_BUNDLE_IDENTIFIER = sezgin.ciftci.ProductionLab
+
+// Info.plist çoğunlukla Xcode tarafından üretilir (GENERATE_INFOPLIST_FILE = YES).
+// Özel anahtarlarımız (AppEnvironment) bu dosyadan eklenir.
+INFOPLIST_FILE = Configuration/Info.plist
+INFOPLIST_KEY_CFBundleDisplayName = $(APP_DISPLAY_NAME)
+
+// Team ID burada veya projede hardcode edilmez; gerekirse Xcode'da seçilir.

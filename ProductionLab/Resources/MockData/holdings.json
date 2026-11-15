@@ -1,0 +1,202 @@
+[
+  {
+    "id": "11111111-1111-4111-8111-111111111111",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO1",
+    "name": "Demo Technology",
+    "quantity": 15,
+    "averageCost": 120.5,
+    "currentPrice": 135.75,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000002",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO2",
+    "name": "Sample Energy",
+    "quantity": 19,
+    "averageCost": 94.5,
+    "currentPrice": 99.23,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000003",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO3",
+    "name": "Fictional Retail",
+    "quantity": 26,
+    "averageCost": 131.75,
+    "currentPrice": 127.8,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000004",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO4",
+    "name": "Mock Logistics",
+    "quantity": 33,
+    "averageCost": 168.0,
+    "currentPrice": 203.28,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000005",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO5",
+    "name": "Example Health",
+    "quantity": 40,
+    "averageCost": 205.25,
+    "currentPrice": 229.88,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000006",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO6",
+    "name": "Training Telecom",
+    "quantity": 47,
+    "averageCost": 242.5,
+    "currentPrice": 220.68,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000007",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO7",
+    "name": "Placeholder Foods",
+    "quantity": 9,
+    "averageCost": 279.75,
+    "currentPrice": 293.74,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000008",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO8",
+    "name": "Demo Materials",
+    "quantity": 16,
+    "averageCost": 316.0,
+    "currentPrice": 306.52,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000009",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO9",
+    "name": "Sample Mobility",
+    "quantity": 23,
+    "averageCost": 53.25,
+    "currentPrice": 64.43,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000010",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO10",
+    "name": "Fictional Media",
+    "quantity": 30,
+    "averageCost": 90.5,
+    "currentPrice": 101.36,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000011",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO11",
+    "name": "Mock Robotics",
+    "quantity": 37,
+    "averageCost": 127.75,
+    "currentPrice": 116.25,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000012",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO12",
+    "name": "Example Water",
+    "quantity": 44,
+    "averageCost": 164.0,
+    "currentPrice": 172.2,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000013",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO13",
+    "name": "Training Aerospace",
+    "quantity": 6,
+    "averageCost": 201.25,
+    "currentPrice": 195.21,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000014",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO14",
+    "name": "Placeholder Textiles",
+    "quantity": 13,
+    "averageCost": 238.5,
+    "currentPrice": 288.58,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000015",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO15",
+    "name": "Demo Software",
+    "quantity": 20,
+    "averageCost": 275.75,
+    "currentPrice": 308.84,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000016",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO16",
+    "name": "Sample Chemicals",
+    "quantity": 27,
+    "averageCost": 312.0,
+    "currentPrice": 283.92,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000017",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO17",
+    "name": "Fictional Travel",
+    "quantity": 34,
+    "averageCost": 49.25,
+    "currentPrice": 51.71,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000018",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO18",
+    "name": "Mock Semiconductors",
+    "quantity": 41,
+    "averageCost": 86.5,
+    "currentPrice": 83.91,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000019",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO19",
+    "name": "Example Insurance",
+    "quantity": 48,
+    "averageCost": 123.75,
+    "currentPrice": 149.74,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  },
+  {
+    "id": "11111111-1111-4111-8111-000000000020",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO20",
+    "name": "Training Gaming",
+    "quantity": 10,
+    "averageCost": 160.0,
+    "currentPrice": 179.2,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "11111111-1111-4111-8111-111111111111",
+    "portfolioID": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+    "symbol": "DEMO1",
+    "name": "Demo Technology",
+    "quantity": 100,
+    "averageCost": 900,
+    "currentPrice": 1000,
+    "updatedAt": "2026-01-15T10:00:00Z"
+  }
+]

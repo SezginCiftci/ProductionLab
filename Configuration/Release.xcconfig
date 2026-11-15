@@ -1,0 +1,9 @@
+// Release.xcconfig
+// ProductionLab app target'ının Release ayarları.
+// Release derlemesinde Diagnostics ekranı yoktur (#if DEBUG ile kapatılır).
+
+#include "Shared.xcconfig"
+
+APP_DISPLAY_NAME = ProductionLab
+
+APP_ENVIRONMENT = Release · Offline mock API
