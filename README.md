@@ -77,7 +77,7 @@ Xcode'da: `⌘U` hepsini çalıştırır; Test navigator'dan (`⌘6`) tek dosya/
 | `FeatureViewModelTests` | Holdings arama/sıralama (doğal sıralama dahil), Activity filtreleri |
 | `KeychainStorageTests` | Gerçek Keychain'de kaydet/oku/güncelle/sil (ayrı servis adıyla) |
 | `DataSetTests` | 1.000/5.000 sete geçiş, normale dönüşte verinin değişmemesi, üretecin deterministik olması |
-| `PerformanceTests` (XCTest) | 5.000 kayıtta `measure` ile özet hesabı ve arama/sıralama süresi |
+| `PerformanceTests` (XCTest) | 5.000 kayıtta `measure` ile özet hesabı ve sıralama süresi (1.000 kayıt) |
 
 **UI testleri (`ProductionLabUITests`, XCUITest)**
 

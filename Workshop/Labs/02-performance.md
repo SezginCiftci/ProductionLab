@@ -40,7 +40,7 @@ Time Profiler ile ana thread'i meşgul eden fonksiyonu bulmak, algoritmik karma�
    ```sh
    xcodebuild test -project ProductionLab.xcodeproj -scheme ProductionLab \
      -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
-     -only-testing:ProductionLabTests/PerformanceTests/testHoldingsSearchAndSortWith5000Holdings
+     -only-testing:ProductionLabTests/PerformanceTests/testHoldingsSortWith1000Holdings
    ```
    Sonuç: Xcode → Report navigator (`⌘9`) → test → "average".
 4. Düzeltin.
@@ -59,7 +59,7 @@ Not: İyileşme için sabit bir yüzde beklenmez; makineye, Debug/Release'e ve c
 ## Doğrulama
 
 - 5.000 kayıtta sıralama ve arama gecikmesiz çalışmalı; Hangs kaydında uzun bloklanma görünmemeli.
-- `PerformanceTests/testHoldingsSearchAndSortWith5000Holdings` ortalaması belirgin şekilde düşmeli.
+- `PerformanceTests/testHoldingsSortWith1000Holdings` ortalaması belirgin şekilde düşmeli.
 - `ProductionLabTests/HoldingsViewModelTests` geçmeli (sıralama ve ağırlık sonuçları değişmemeli).
 
 Çözüm ve açıklama: `solution/performance` branch'inde `Workshop/Solutions/02-performance.md`.
