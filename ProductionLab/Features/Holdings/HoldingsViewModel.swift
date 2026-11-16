@@ -13,19 +13,10 @@ enum HoldingSortOption: String, CaseIterable, Identifiable {
 @MainActor
 @Observable
 final class HoldingsViewModel {
-    // Arama veya sıralama değişince liste bir kez yeniden hesaplanır.
-    var searchText = "" {
-        didSet { updateVisibleHoldings() }
-    }
-    var sortOption: HoldingSortOption = .symbolAscending {
-        didSet { updateVisibleHoldings() }
-    }
+    var searchText = ""
+    var sortOption: HoldingSortOption = .symbolAscending
 
     private(set) var holdings: [Holding] = []
-    /// Arama ve sıralama uygulanmış liste. View her çizimde hesaplamaz, hazır diziyi okur.
-    private(set) var visibleHoldings: [Holding] = []
-    /// Portföyün toplam piyasa değeri (ağırlık hesabı için, load sırasında bir kez hesaplanır).
-    private(set) var totalValue = 0.0
     private(set) var currencyCode = "USD"
     private(set) var errorMessage: String?
 
@@ -37,25 +28,13 @@ final class HoldingsViewModel {
 
     /// Varlığın portföy içindeki ağırlığı (%).
     func weight(of holding: Holding) -> Double {
+        let totalValue = holdings.reduce(0) { $0 + PortfolioCalculator.marketValue(of: $1) }
         guard totalValue > 0 else { return 0 }
         return PortfolioCalculator.marketValue(of: holding) / totalValue * 100
     }
 
-    /// SwiftData'daki kayıtlı veriyi okur. Her açılışta çağrılabilir.
-    func load() {
-        do {
-            let portfolio = try portfolioRepository.cachedPortfolio()
-            holdings = portfolio?.holdings ?? []
-            currencyCode = portfolio?.currencyCode ?? "USD"
-            totalValue = PortfolioCalculator.summary(of: holdings).totalValue
-            errorMessage = nil
-        } catch {
-            errorMessage = error.localizedDescription
-        }
-        updateVisibleHoldings()
-    }
-
-    private func updateVisibleHoldings() {
+    /// Arama ve sıralama uygulanmış liste.
+    var visibleHoldings: [Holding] {
         var result = holdings
 
         // Arama: büyük/küçük harf duyarsız, sembol ve isimde.
@@ -72,10 +51,26 @@ final class HoldingsViewModel {
         case .symbolDescending:
             result.sort { $0.symbol.localizedStandardCompare($1.symbol) == .orderedDescending }
         case .marketValue:
-            result.sort { PortfolioCalculator.marketValue(of: $0) > PortfolioCalculator.marketValue(of: $1) }
+            // Portföydeki payı en büyük olan en üstte. Ağırlık her varlık için bir kez hesaplanır.
+            result = result
+                .map { (holding: $0, weight: weight(of: $0)) }
+                .sorted { $0.weight > $1.weight }
+                .map(\.holding)
         case .profitLossPercent:
             result.sort { PortfolioCalculator.profitLossPercent(of: $0) > PortfolioCalculator.profitLossPercent(of: $1) }
         }
-        visibleHoldings = result
+        return result
+    }
+
+    /// SwiftData'daki kayıtlı veriyi okur. Her açılışta çağrılabilir.
+    func load() {
+        do {
+            let portfolio = try portfolioRepository.cachedPortfolio()
+            holdings = portfolio?.holdings ?? []
+            currencyCode = portfolio?.currencyCode ?? "USD"
+            errorMessage = nil
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
 }
