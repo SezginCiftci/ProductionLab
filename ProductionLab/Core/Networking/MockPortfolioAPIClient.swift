@@ -13,6 +13,8 @@ struct MockPortfolioAPIClient: PortfolioAPIClient {
     var holdingsFileName = "holdings"
     /// Performans veri seti seçiliyse JSON yerine bu kadar üretilmiş varlık döner.
     var generatedHoldingCount: Int?
+    /// Diagnostics'teki istek sayacı (opsiyonel).
+    var requestTracker: RequestTracker?
 
     func fetchPortfolio() async throws -> PortfolioDTO {
         let scenario = try await waitForResponse(operation: "fetchPortfolio")
@@ -44,6 +46,7 @@ struct MockPortfolioAPIClient: PortfolioAPIClient {
     /// Stale response lab'i: A isteği 8 sn sonra DEMO1 = 100.000, B isteği 500 ms sonra DEMO1 = 120.000 döner.
     private func fetchStaleHoldings() async throws -> [HoldingDTO] {
         let isA = await scenarioController.takeNextStaleRequestIsA()
+        requestTracker?.record()
         AppLogger.networking.info("fetchHoldings başladı, stale istek: \(isA ? "A" : "B", privacy: .public)")
 
         try await Task.sleep(for: isA ? slowDelay : delay)
@@ -56,6 +59,7 @@ struct MockPortfolioAPIClient: PortfolioAPIClient {
     private func waitForResponse(operation: String) async throws -> MockScenario {
         // Senaryo isteğin başında bir kez okunur. Sonradan değişirse bu isteği etkilemez.
         let scenario = await scenarioController.currentScenario()
+        requestTracker?.record()
         AppLogger.networking.info("\(operation, privacy: .public) başladı, senaryo: \(scenario.rawValue, privacy: .public)")
 
         // Task.sleep iptal edilirse hemen CancellationError fırlatır (Thread.sleep bunu yapamaz).

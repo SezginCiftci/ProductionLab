@@ -31,6 +31,28 @@ struct DiagnosticsView: View {
                 Text("Performans setleri bellekte ayrı bir veritabanında tutulur; normal veriniz değişmez. Seçimden sonra Dashboard açılır.")
             }
 
+            Section {
+                LabeledContent("Toplam istek", value: "\(viewModel.totalRequests)")
+                    .accessibilityIdentifier("diagnostics.totalRequests")
+                Button {
+                    Task { await viewModel.runStressTest() }
+                } label: {
+                    HStack {
+                        Text("Stres testi (200 eşzamanlı istek)")
+                        Spacer()
+                        if viewModel.isRunningStressTest {
+                            ProgressView()
+                        }
+                    }
+                }
+                .disabled(viewModel.isRunningStressTest)
+                .accessibilityIdentifier("diagnostics.stressTest")
+            } header: {
+                Text("İstek sayacı")
+            } footer: {
+                Text("Her basışta sayaç tam 200 artmalıdır.")
+            }
+
             Section("Aktif veritabanı") {
                 LabeledContent("Varlık", value: "\(viewModel.holdingCount)")
                     .accessibilityIdentifier("diagnostics.holdingCount")

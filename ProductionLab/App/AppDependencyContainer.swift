@@ -10,6 +10,7 @@ import SwiftData
 @Observable
 final class AppDependencyContainer {
     let scenarioController = MockScenarioController(scenario: AppInfo.launchScenario ?? .success)
+    let requestTracker = RequestTracker()
     let authService: AuthenticationService
 
     private(set) var dataSet: DataSet = .standard
@@ -36,7 +37,7 @@ final class AppDependencyContainer {
         }
 
         let context = mainModelContainer.mainContext
-        let apiClient = MockPortfolioAPIClient(scenarioController: scenarioController)
+        let apiClient = MockPortfolioAPIClient(scenarioController: scenarioController, requestTracker: requestTracker)
         portfolioRepository = DefaultPortfolioRepository(apiClient: apiClient, context: context)
         transactionRepository = DefaultTransactionRepository(context: context)
         authService = AuthenticationService(storage: secureStorage)
@@ -68,7 +69,7 @@ final class AppDependencyContainer {
         guard newDataSet != dataSet else { return }
 
         let context: ModelContext
-        var apiClient = MockPortfolioAPIClient(scenarioController: scenarioController)
+        var apiClient = MockPortfolioAPIClient(scenarioController: scenarioController, requestTracker: requestTracker)
 
         if newDataSet == .standard {
             // Normale dönüş: performans veritabanı bırakılır, ana veritabanı olduğu gibi kullanılır.

@@ -12,6 +12,8 @@ final class DiagnosticsViewModel {
     private(set) var transactionCount = 0
     private(set) var lastRefreshDate: Date?
     private(set) var errorMessage: String?
+    private(set) var totalRequests = 0
+    private(set) var isRunningStressTest = false
 
     private let container: AppDependencyContainer
 
@@ -26,6 +28,27 @@ final class DiagnosticsViewModel {
         holdingCount = (try? container.portfolioRepository.cachedPortfolio()?.holdings.count) ?? 0
         transactionCount = (try? container.transactionRepository.transactions().count) ?? 0
         lastRefreshDate = container.portfolioRepository.lastRefreshDate()
+        totalRequests = container.requestTracker.totalRequests
+    }
+
+    /// Mock API'ye aynı anda 200 istek gönderir; sayaç tam 200 artmalıdır.
+    func runStressTest() async {
+        isRunningStressTest = true
+        let client = MockPortfolioAPIClient(
+            scenarioController: MockScenarioController(),
+            delay: .milliseconds(10),
+            requestTracker: container.requestTracker
+        )
+        await withTaskGroup(of: Void.self) { group in
+            for _ in 0..<200 {
+                group.addTask {
+                    _ = try? await client.fetchPortfolio()
+                }
+            }
+        }
+        totalRequests = container.requestTracker.totalRequests
+        isRunningStressTest = false
+        AppLogger.diagnostics.notice("Stres testi bitti, toplam istek: \(self.totalRequests)")
     }
 
     func select(_ newScenario: MockScenario) async {
