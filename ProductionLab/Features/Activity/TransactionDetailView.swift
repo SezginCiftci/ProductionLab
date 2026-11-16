@@ -18,18 +18,16 @@ struct TransactionDetailView: View {
                 LabeledContent("Tarih", value: transaction.createdAt.formatted(date: .abbreviated, time: .shortened))
             }
             Section("Varlık") {
-                // holdingID opsiyoneldir: kapanmış pozisyonların bağlı varlığı yoktur.
-                if let holdingID = transaction.holdingID {
-                    LabeledContent("Holding ID", value: holdingID.uuidString)
-                        .font(.footnote)
-                } else {
-                    Text("Bağlı bir varlık yok")
-                        .foregroundStyle(.secondary)
-                        .accessibilityIdentifier("transactionDetail.noHolding")
-                }
+                LabeledContent("Holding ID", value: holdingIDText)
+                    .font(.footnote)
             }
         }
         .navigationTitle(transaction.symbol)
         .accessibilityIdentifier("transactionDetail.view")
+    }
+
+    /// Bağlı varlığın kimliği.
+    private var holdingIDText: String {
+        transaction.holdingID!.uuidString
     }
 }
