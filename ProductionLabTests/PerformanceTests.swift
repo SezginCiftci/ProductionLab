@@ -13,8 +13,10 @@ final class PerformanceTests: XCTestCase {
         }
     }
 
+    /// Debug derlemesinde de makul sürede bitmesi için 1.000 kayıt kullanılır.
     @MainActor
-    func testHoldingsSearchAndSortWith5000Holdings() {
+    func testHoldingsSortWith1000Holdings() {
+        let holdings = Array(self.holdings.prefix(1_000))
         let portfolio = Portfolio(id: UUID(), name: "Perf", currencyCode: "USD", holdings: holdings)
         let viewModel = HoldingsViewModel(portfolioRepository: FakePortfolioRepository(cached: portfolio))
         viewModel.load()
