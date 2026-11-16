@@ -9,7 +9,7 @@ struct HoldingsView: View {
                 Section {
                     ForEach(viewModel.visibleHoldings) { holding in
                         NavigationLink(value: holding) {
-                            HoldingRow(holding: holding, currencyCode: viewModel.currencyCode)
+                            HoldingRow(holding: holding, weight: viewModel.weight(of: holding), currencyCode: viewModel.currencyCode)
                         }
                         .accessibilityIdentifier("holdings.row.\(holding.symbol)")
                     }
@@ -52,13 +52,17 @@ struct HoldingsView: View {
 
 private struct HoldingRow: View {
     let holding: Holding
+    /// Portföy içindeki ağırlık (%)
+    let weight: Double
     let currencyCode: String
 
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
                 Text(holding.symbol).font(.headline)
-                Text(holding.name).font(.subheadline).foregroundStyle(.secondary)
+                Text("\(holding.name) · \(Formatting.weight(weight))")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
             }
             Spacer()
             VStack(alignment: .trailing) {

@@ -57,6 +57,14 @@ struct HoldingsViewModelTests {
         #expect(symbols.count == 3)
     }
 
+    @Test func weightIsShareOfTotalValue() {
+        // Toplam: 300 + 500 + 80 = 880
+        let alpha = viewModel.holdings.first { $0.symbol == "ALPHA" }!
+        #expect(abs(viewModel.weight(of: alpha) - 500.0 / 880.0 * 100) < 0.0001)
+        let totalWeight = viewModel.holdings.reduce(0) { $0 + viewModel.weight(of: $1) }
+        #expect(abs(totalWeight - 100) < 0.0001)
+    }
+
     @Test func searchAndSortWorkTogether() {
         viewModel.searchText = "a" // ALPHA, BETA, GAMMA hepsinde "a" var
         viewModel.sortOption = .symbolDescending
@@ -87,5 +95,31 @@ struct ActivityViewModelTests {
 
     @Test func amountIsQuantityTimesPrice() {
         #expect(makeTransaction(.buy, holdingID: nil).amount == 10)
+    }
+}
+
+@MainActor
+struct HoldingDetailViewModelTests {
+    let holding = makeHolding(symbol: "DEMO1", quantity: 15, averageCost: 120.5, currentPrice: 135.75)
+
+    /// Memory lab regresyonu: ekran kapanınca (son referans bırakılınca) ViewModel bellekten silinmeli.
+    @Test func viewModelIsReleasedWhenScreenCloses() async {
+        weak var weakViewModel: HoldingDetailViewModel?
+        do {
+            let viewModel = HoldingDetailViewModel(holding: holding, currencyCode: "USD")
+            weakViewModel = viewModel
+            // Ekran açıkken canlı fiyat çalışır, ekran kapanınca SwiftUI görevi iptal eder.
+            let screenTask = Task { await viewModel.runLivePriceUpdates() }
+            try? await Task.sleep(for: .milliseconds(50))
+            screenTask.cancel()
+            await screenTask.value
+        }
+        #expect(weakViewModel == nil)
+    }
+
+    @Test func livePriceStartsAtCurrentPrice() {
+        let viewModel = HoldingDetailViewModel(holding: holding, currencyCode: "USD")
+        #expect(viewModel.livePrice == 135.75)
+        #expect(viewModel.marketValue == 2_036.25)
     }
 }

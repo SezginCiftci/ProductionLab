@@ -21,7 +21,13 @@ final class AppDependencyContainer {
     /// Performans veri seti için bellekte ayrı veritabanı. Normal veri setine dönünce bırakılır.
     private var performanceModelContainer: ModelContainer?
 
-    init(inMemory: Bool = AppInfo.isRunningTests, secureStorage: SecureStorage = KeychainStorage()) {
+    /// Token'ın nerede saklanacağı tek yerden belirlenir.
+    nonisolated static func makeDefaultSecureStorage() -> SecureStorage {
+        KeychainStorage()
+    }
+
+    init(inMemory: Bool = AppInfo.isRunningTests,
+         secureStorage: SecureStorage = AppDependencyContainer.makeDefaultSecureStorage()) {
         do {
             mainModelContainer = try Self.makeModelContainer(inMemory: inMemory)
         } catch {

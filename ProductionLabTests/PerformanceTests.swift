@@ -18,10 +18,12 @@ final class PerformanceTests: XCTestCase {
         let portfolio = Portfolio(id: UUID(), name: "Perf", currencyCode: "USD", holdings: holdings)
         let viewModel = HoldingsViewModel(portfolioRepository: FakePortfolioRepository(cached: portfolio))
         viewModel.load()
-        viewModel.sortOption = .profitLossPercent
 
+        // Her turda sıralama değişir: piyasa değeri ↔ sembol. CPU lab'inde önce/sonra kıyası bu testle yapılır.
         measure {
-            viewModel.searchText = "PERF1"
+            viewModel.sortOption = .marketValue
+            _ = viewModel.visibleHoldings
+            viewModel.sortOption = .symbolAscending
             _ = viewModel.visibleHoldings
         }
     }

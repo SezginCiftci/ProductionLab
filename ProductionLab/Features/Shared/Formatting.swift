@@ -14,6 +14,11 @@ enum Formatting {
         (value / 100).formatted(.percent.precision(.fractionLength(2)).sign(strategy: .always()))
     }
 
+    /// Portföy ağırlığı: 4.2 → "%4,2" (işaretsiz)
+    static func weight(_ value: Double) -> String {
+        (value / 100).formatted(.percent.precision(.fractionLength(1)))
+    }
+
     static func quantity(_ value: Double) -> String {
         value.formatted(.number.precision(.fractionLength(0...4)))
     }

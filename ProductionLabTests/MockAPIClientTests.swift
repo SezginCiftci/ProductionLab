@@ -38,7 +38,7 @@ struct MockAPIClientTests {
     }
 
     @Test func cancellationThrowsCancellationError() async {
-        let client = MockPortfolioAPIClient(scenarioController: MockScenarioController(), delay: .seconds(30))
+        let client = MockPortfolioAPIClient(scenarioController: MockScenarioController(), delay: .seconds(10))
         let task = Task { try await client.fetchHoldings() }
         task.cancel()
 
@@ -62,6 +62,14 @@ struct MockAPIClientTests {
         await controller.setScenario(.serverError)
 
         #expect(try await task.value.count == 20)
+    }
+
+    @Test func staleResponseAlternatesBetweenAAndB() async throws {
+        let client = await makeClient(.staleResponse)
+        let first = try await client.fetchHoldings().map { $0.toDomain() }
+        let second = try await client.fetchHoldings().map { $0.toDomain() }
+        #expect(first.first?.currentPrice == 1_000)  // A
+        #expect(second.first?.currentPrice == 1_200) // B
     }
 
     @Test func performanceDataSetReturnsGeneratedHoldings() async throws {

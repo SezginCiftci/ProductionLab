@@ -2,7 +2,7 @@
 
 Kurgusal bir yatırım portföyü üzerinden ileri iOS mühendisliği eğitimi için hazırlanmış, tamamen çevrimdışı çalışan uygulama. Gerçek servis, API anahtarı, üçüncü taraf bağımlılık veya Apple Developer üyeliği gerekmez.
 
-Durum: **Faz 1–4 tamamlandı** (Foundation, Data & Mock Networking, Security & Diagnostics, Testing). Lab branch'leri ve Workshop yönergeleri sonraki fazlardadır.
+Durum: **Faz 1–5 tamamlandı.** Workshop lab'leri için bkz. [Workshop/README.md](Workshop/README.md).
 
 ## Gereksinimler
 
@@ -28,6 +28,7 @@ Settings → Diagnostics (yalnızca Debug) üzerinden seçilir ve bir sonraki is
 | serverError | 500 ms sonra HTTP 503 (`AppError.server`) |
 | emptyResponse | 500 ms sonra boş holdings dizisi |
 | invalidJSON | `holdings_invalid.json` ile deterministik decoding hatası |
+| staleResponse | Holdings istekleri sırayla A (8 sn, DEMO1 = 100.000) ve B (500 ms, DEMO1 = 120.000) döner |
 
 İptal edilen istekler `CancellationError` yayar; sunucu hatası olarak gösterilmez veya loglanmaz. Stale response lab'i için `holdings_stale_a.json` (100.000) ve `holdings_stale_b.json` (120.000) hazırdır.
 
@@ -123,6 +124,15 @@ Klasörler: `App/`, `Core/{Networking,Persistence,Security,Logging,Utilities}`, 
 - **Veri seti değişimi:** `AppDependencyContainer` `@Observable`'dır; veri seti değişince repository'ler yeni `ModelContext` ile oluşturulur ve `RootView` `.id(dataSet)` ile sekmeleri yeniden kurar.
 - Demo kolaylığı için `Double` kullanılır; gerçek finansal uygulamada `Decimal` tercih edilmelidir.
 
-## Bilinen sınırlamalar / sonraki işler
+## Workshop
 
-- Faz 5–6: Lab/solution branch'leri, `Workshop/` yönergeleri, örnek crash raporu.
+Lab'ler `lab/*`, örnek çözümler `solution/*` branch'lerindedir. `starter` katılımcı başlangıç noktasıdır (`main` ile aynı). Yönergeler: [Workshop/README.md](Workshop/README.md).
+
+```sh
+git branch --list 'lab/*' 'solution/*'
+git switch lab/crash
+```
+
+## Bilinen sın��rlamalar / sonraki işler
+
+- Faz 6: Temiz klon ile uçtan uca kontrol (fresh clone, Debug/Release, testler, lab'ler).

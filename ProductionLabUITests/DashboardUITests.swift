@@ -40,6 +40,24 @@ final class DashboardUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["dashboard.lastRefresh"].label.contains("Hiç"))
     }
 
+    /// Cancellation lab regresyonu: yavaş isteği "Vazgeç" ile iptal edince hata mesajı çıkmamalı,
+    /// istek normalde biteceği süre (8 sn) geçtikten sonra da.
+    @MainActor
+    func testCancellingSlowRefreshShowsNoError() {
+        let app = XCUIApplication.launchForTesting(scenario: "slowResponse")
+        app.signInAndWaitForDashboard()
+
+        let cancel = app.buttons["dashboard.cancelRefresh"]
+        XCTAssertTrue(cancel.waitForExistence(timeout: 5))
+        cancel.tap()
+        XCTAssertTrue(cancel.waitForNonExistence(timeout: 3))
+
+        sleep(10) // iptal edilmeseydi istek bu sürede biterdi
+        XCTAssertFalse(app.descendants(matching: .any)["dashboard.refreshError"].exists)
+        XCTAssertTrue(app.staticTexts["dashboard.lastRefresh"].label.contains("Hiç"))
+        XCTAssertEqual(app.staticTexts["dashboard.holdingCount"].digits, "20")
+    }
+
     /// Diagnostics'ten senaryo değiştirip yenileme: hata → başarıya dönüş.
     @MainActor
     func testRecoversAfterSwitchingScenarioToSuccess() {

@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct HoldingDetailView: View {
-    let viewModel: HoldingDetailViewModel
+    // @State: ekran yeniden çizildiğinde aynı ViewModel kullanılır.
+    @State var viewModel: HoldingDetailViewModel
 
     var body: some View {
         let holding = viewModel.holding
@@ -13,6 +14,11 @@ struct HoldingDetailView: View {
                 LabeledContent("Miktar", value: Formatting.quantity(holding.quantity))
                 LabeledContent("Ortalama maliyet", value: Formatting.currency(holding.averageCost, code: code))
                 LabeledContent("Güncel fiyat", value: Formatting.currency(holding.currentPrice, code: code))
+                LabeledContent("Canlı fiyat (simülasyon)") {
+                    Text(Formatting.currency(viewModel.livePrice, code: code))
+                        .monospacedDigit()
+                        .accessibilityIdentifier("holdingDetail.livePrice")
+                }
             }
             Section("Performans") {
                 LabeledContent("Piyasa değeri") {
@@ -30,5 +36,7 @@ struct HoldingDetailView: View {
         }
         .navigationTitle(holding.symbol)
         .accessibilityIdentifier("holdingDetail.view")
+        // Ekran açıkken çalışır, ekran kapanınca SwiftUI bu görevi otomatik iptal eder.
+        .task { await viewModel.runLivePriceUpdates() }
     }
 }

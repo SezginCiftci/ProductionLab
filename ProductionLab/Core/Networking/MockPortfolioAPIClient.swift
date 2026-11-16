@@ -22,6 +22,10 @@ struct MockPortfolioAPIClient: PortfolioAPIClient {
     }
 
     func fetchHoldings() async throws -> [HoldingDTO] {
+        if await scenarioController.currentScenario() == .staleResponse {
+            return try await fetchStaleHoldings()
+        }
+
         let scenario = try await waitForResponse(operation: "fetchHoldings")
         if scenario == .emptyResponse {
             return []
@@ -34,6 +38,17 @@ struct MockPortfolioAPIClient: PortfolioAPIClient {
             return PerformanceDataGenerator.holdings(count: count, portfolioID: portfolio.id).map { HoldingDTO(holding: $0) }
         }
         let data = try MockData.load(holdingsFileName)
+        return try MockData.makeDecoder().decode([HoldingDTO].self, from: data)
+    }
+
+    /// Stale response lab'i: A isteği 8 sn sonra DEMO1 = 100.000, B isteği 500 ms sonra DEMO1 = 120.000 döner.
+    private func fetchStaleHoldings() async throws -> [HoldingDTO] {
+        let isA = await scenarioController.takeNextStaleRequestIsA()
+        AppLogger.networking.info("fetchHoldings başladı, stale istek: \(isA ? "A" : "B", privacy: .public)")
+
+        try await Task.sleep(for: isA ? slowDelay : delay)
+
+        let data = try MockData.load(isA ? "holdings_stale_a" : "holdings_stale_b")
         return try MockData.makeDecoder().decode([HoldingDTO].self, from: data)
     }
 

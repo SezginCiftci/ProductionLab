@@ -9,9 +9,18 @@ struct DashboardView: View {
                 .navigationTitle("Dashboard")
                 .toolbar {
                     if viewModel.isRefreshing {
-                        ProgressView()
-                            .accessibilityIdentifier("dashboard.refreshing")
-                    } else {
+                        ToolbarItem(placement: .topBarLeading) {
+                            // Kullanıcı artık beklemek istemiyorsa isteği iptal eder; önbellek korunur.
+                            Button("Vazgeç") { viewModel.cancelRefresh() }
+                                .accessibilityIdentifier("dashboard.cancelRefresh")
+                        }
+                        ToolbarItem(placement: .topBarTrailing) {
+                            ProgressView()
+                                .accessibilityIdentifier("dashboard.refreshing")
+                        }
+                    }
+                    // Yenileme sürerken de basılabilir: yeni istek eskisini iptal eder.
+                    ToolbarItem(placement: .topBarTrailing) {
                         Button("Refresh", systemImage: "arrow.clockwise") {
                             viewModel.refresh()
                         }

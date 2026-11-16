@@ -87,7 +87,7 @@ struct SwiftDataTests {
     }
 
     @Test func cancelledRefreshKeepsCache() async throws {
-        let client = MockPortfolioAPIClient(scenarioController: MockScenarioController(), delay: .seconds(30))
+        let client = MockPortfolioAPIClient(scenarioController: MockScenarioController(), delay: .seconds(10))
         let repository = DefaultPortfolioRepository(apiClient: client, context: context)
         let before = try repository.cachedPortfolio()
 
