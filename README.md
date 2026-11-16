@@ -133,6 +133,6 @@ git branch --list 'lab/*' 'solution/*'
 git switch lab/crash
 ```
 
-## Bilinen sın��rlamalar / sonraki işler
+## Bilinen sınırlamalar / sonraki işler
 
 - Faz 6: Temiz klon ile uçtan uca kontrol (fresh clone, Debug/Release, testler, lab'ler).
