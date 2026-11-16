@@ -46,8 +46,8 @@ Cooperative cancellation'ı (iş birliğine dayalı iptal) anlamak: iptal edilen
 ```sh
 xcodebuild test -project ProductionLab.xcodeproj -scheme ProductionLab \
   -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
-  -only-testing:ProductionLabTests/MockAPIClientTests/cancellationThrowsCancellationError \
-  -only-testing:ProductionLabTests/DashboardViewModelTests/cancelKeepsCacheWithoutError \
+  "-only-testing:ProductionLabTests/MockAPIClientTests/cancellationThrowsCancellationError()" \
+  "-only-testing:ProductionLabTests/DashboardViewModelTests/cancelKeepsCacheWithoutError()" \
   -only-testing:ProductionLabUITests/DashboardUITests/testCancellingSlowRefreshShowsNoError
 ```
 

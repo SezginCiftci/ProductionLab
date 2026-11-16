@@ -36,6 +36,8 @@ git diff lab/crash solution/crash # kendi çözümünü örnek çözümle kıyas
 git switch solution/crash         # örnek çözüm + açıklama (Workshop/Solutions)
 ```
 
+Swift Testing'de tek bir test seçerken fonksiyon adının sonuna `()` eklenir ve argüman tırnak içine alınır: `"-only-testing:ProductionLabTests/DashboardViewModelTests/cancelKeepsCacheWithoutError()"`. XCTest testlerinde (UI testleri, `PerformanceTests`) parantez kullanılmaz.
+
 Kendi değişikliklerinizle başka bir lab'e geçmeden önce `git stash` veya `git restore .` kullanın.
 
 ## Genel notlar
