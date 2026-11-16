@@ -56,10 +56,8 @@ final class DashboardViewModel {
         }
     }
 
-    /// Yeni bir yenileme başlatır. Önceki istek hâlâ sürüyorsa iptal edilir;
-    /// böylece geç dönen eski cevap yeni sonucun üzerine yazamaz (stale response koruması).
+    /// Yeni bir yenileme başlatır.
     func refresh() {
-        refreshTask?.cancel()
         isRefreshing = true
         refreshTask = Task {
             await performRefresh()
@@ -77,9 +75,6 @@ final class DashboardViewModel {
 
         do {
             let portfolio = try await portfolioRepository.refreshPortfolio()
-            // Beklerken bu görev iptal edildiyse (ör. daha yeni bir refresh başladıysa) sonucu kullanma.
-            if Task.isCancelled { return }
-
             state = .loaded(try makeContent(from: portfolio))
             lastRefreshDate = portfolioRepository.lastRefreshDate()
         } catch is CancellationError {
