@@ -35,14 +35,28 @@ final class HoldingsViewModel {
 
     private let portfolioRepository: PortfolioRepository
 
+    /// addObserver'ın döndürdüğü kayıt. Saklanmazsa observer hiçbir zaman kaldırılamaz.
+    /// `nonisolated(unsafe)`: nonisolated deinit'ten okunabilmesi için; yalnızca init ve deinit'te erişilir.
+    @ObservationIgnored nonisolated(unsafe) private var refreshObserver: NSObjectProtocol?
+
     init(portfolioRepository: PortfolioRepository) {
         self.portfolioRepository = portfolioRepository
 
         // Dashboard'da refresh bitince Holdings listesi de güncel veriyi göstersin.
-        NotificationCenter.default.addObserver(forName: .portfolioDidRefresh, object: nil, queue: .main) { _ in
+        // [weak self]: NotificationCenter closure'ı tutar; self'i güçlü yakalarsa ViewModel hiç silinmez.
+        refreshObserver = NotificationCenter.default.addObserver(
+            forName: .portfolioDidRefresh, object: nil, queue: .main
+        ) { [weak self] _ in
             MainActor.assumeIsolated {
-                self.load()
+                self?.load()
             }
+        }
+    }
+
+    deinit {
+        // Ekran (veya veri seti) değişip ViewModel bırakıldığında kaydı da sil.
+        if let refreshObserver {
+            NotificationCenter.default.removeObserver(refreshObserver)
         }
     }
 
