@@ -63,7 +63,10 @@ final class KeychainStorage: SecureStorage {
     }
 
     func delete(for key: String) throws {
-        let status = SecItemDelete(baseQuery(for: key) as CFDictionary)
+        var query = baseQuery(for: key)
+        // Oturum kapatma cihaz kilitliyken de (ör. arka planda gelen "oturumu sonlandır" push'u ile) çalışabilsin.
+        query[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+        let status = SecItemDelete(query as CFDictionary)
         // Silinecek kayıt zaten yoksa sorun değil.
         guard status == errSecSuccess || status == errSecItemNotFound else {
             throw KeychainError(status: status)

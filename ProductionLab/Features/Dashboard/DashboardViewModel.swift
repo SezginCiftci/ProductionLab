@@ -1,6 +1,11 @@
 import Foundation
 import Observation
 
+extension Notification.Name {
+    /// Refresh başarıyla kaydedildiğinde gönderilir; diğer ekranlar kendini yeniler.
+    static let portfolioDidRefresh = Notification.Name("ProductionLab.portfolioDidRefresh")
+}
+
 /// Dashboard'da gösterilen veri.
 struct DashboardContent {
     let portfolioName: String
@@ -82,6 +87,7 @@ final class DashboardViewModel {
 
             state = .loaded(try makeContent(from: portfolio))
             lastRefreshDate = portfolioRepository.lastRefreshDate()
+            NotificationCenter.default.post(name: .portfolioDidRefresh, object: nil)
         } catch is CancellationError {
             // İptal bir hata değildir: mesaj gösterme, önbelleği koru.
             return

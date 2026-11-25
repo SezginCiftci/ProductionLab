@@ -37,6 +37,13 @@ final class HoldingsViewModel {
 
     init(portfolioRepository: PortfolioRepository) {
         self.portfolioRepository = portfolioRepository
+
+        // Dashboard'da refresh bitince Holdings listesi de güncel veriyi göstersin.
+        NotificationCenter.default.addObserver(forName: .portfolioDidRefresh, object: nil, queue: .main) { _ in
+            MainActor.assumeIsolated {
+                self.load()
+            }
+        }
     }
 
     /// Varlığın portföy içindeki ağırlığı (%).
