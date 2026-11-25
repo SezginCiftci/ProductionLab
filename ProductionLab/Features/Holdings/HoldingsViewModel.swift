@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import OSLog
 
 enum HoldingSortOption: String, CaseIterable, Identifiable {
     case symbolAscending = "Sembol A–Z"
@@ -29,6 +30,9 @@ final class HoldingsViewModel {
     private(set) var currencyCode = "USD"
     private(set) var errorMessage: String?
 
+    /// id → portföy ağırlığı (%). Satırlar her çizimde bölme yapmasın diye load() sırasında bir kez hesaplanır.
+    @ObservationIgnored private var weightCache: [UUID: Double]!
+
     private let portfolioRepository: PortfolioRepository
 
     init(portfolioRepository: PortfolioRepository) {
@@ -37,8 +41,7 @@ final class HoldingsViewModel {
 
     /// Varlığın portföy içindeki ağırlığı (%).
     func weight(of holding: Holding) -> Double {
-        guard totalValue > 0 else { return 0 }
-        return PortfolioCalculator.marketValue(of: holding) / totalValue * 100
+        weightCache[holding.id] ?? 0
     }
 
     /// SwiftData'daki kayıtlı veriyi okur. Her açılışta çağrılabilir.
@@ -49,10 +52,27 @@ final class HoldingsViewModel {
             currencyCode = portfolio?.currencyCode ?? "USD"
             totalValue = PortfolioCalculator.summary(of: holdings).totalValue
             errorMessage = nil
+
+            #if DEBUG
+            // Önbellek süresini yalnızca geliştirme sırasında ölç.
+            let elapsed = ContinuousClock().measure {
+                weightCache = makeWeightCache()
+            }
+            AppLogger.performance.debug("Ağırlık önbelleği: \(self.holdings.count) varlık, \(elapsed)")
+            #endif
         } catch {
             errorMessage = error.localizedDescription
         }
         updateVisibleHoldings()
+    }
+
+    private func makeWeightCache() -> [UUID: Double] {
+        guard totalValue > 0 else { return [:] }
+        var cache: [UUID: Double] = [:]
+        for holding in holdings {
+            cache[holding.id] = PortfolioCalculator.marketValue(of: holding) / totalValue * 100
+        }
+        return cache
     }
 
     private func updateVisibleHoldings() {
